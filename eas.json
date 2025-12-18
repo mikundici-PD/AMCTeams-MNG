@@ -1,4 +1,8 @@
 {
+  - name: Initialize EAS project
+  run: |
+    npx eas init --non-interactive --force
+
   "build": {
     "development": {
       "developmentClient": true,
