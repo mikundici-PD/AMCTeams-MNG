@@ -1,29 +1,35 @@
 name: Build APK
 on:
   push:
-    branches: [ main ]
+    branches: [ main ] # Si attiva ogni volta che fai un push su main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 🏗 Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: 🏗 Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 🏗 Setup Expo
+      - name: Setup Expo
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: 🚀 Build APK
-        run: eas build --platform android --profile preview --non-interactive
+      - name: Build APK
+        run: eas build -p android --profile preview --local --output=./amc-teams.apk
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: amc-teams-apk
+          path: ./amc-teams.apk
