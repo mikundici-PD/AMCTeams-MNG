@@ -2,6 +2,7 @@
   "expo": {
     "name": "AMC Teams",
     "slug": "amc-teams",
+    "owner": "pippero",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
