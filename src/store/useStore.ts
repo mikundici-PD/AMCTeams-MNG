@@ -8,16 +8,19 @@ export interface Atleta {
   teamId: string;
   nome: string;
   cognome: string;
-  certificatoMedico: string; // YYYY-MM-DD
+  certificatoMedico: string;
   nascita: string;
   maglia: string;
+  telefono?: string; // <--- AGGIUNTO
+  docImage?: string;  // <--- AGGIUNTO
+  cfImage?: string;   // <--- AGGIUNTO
 }
 
 export interface Gara {
   id: string;
   teamId: string;
   avversario: string;
-  data: string; // ISO String
+  data: string;
   luogo: string;
 }
 
@@ -53,7 +56,6 @@ export const useStore = create<AppState>()(
       },
       addAtleta: (atleta) => {
         set((state) => ({ atlete: [...state.atlete, atleta] }));
-        // Schedula le notifiche dopo l'inserimento
         scheduleAllNotifications(get().atlete);
       },
       addGara: (gara) => set((state) => ({ gare: [...state.gare, gara] })),
