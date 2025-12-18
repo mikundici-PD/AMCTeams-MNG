@@ -8,6 +8,13 @@
     "userInterfaceStyle": "light",
     "scheme": "amcteams",
     "assetBundlePatterns": ["**/*"],
+
+    "extra": {
+      "eas": {
+        "projectId": "09fac0d2-1690-420c-b25b-655cab0d84a0"
+      }
+    },
+
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
