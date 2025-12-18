@@ -6,11 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-clean:
+  build:
     runs-on: ubuntu-latest
-    env:
-      ACTIONS_CACHE_URL: ""
-      ACTIONS_RUNTIME_TOKEN: ""
 
     steps:
       - name: Checkout repository
@@ -20,6 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Setup Expo & EAS
         uses: expo/expo-github-action@v8
