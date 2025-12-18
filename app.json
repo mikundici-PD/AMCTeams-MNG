@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "AMC Teams",
+    "slug": "amc-teams",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "amcteams",
+    "assetBundlePatterns": ["**/*"],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F2F2F7"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.amcteams.manager"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.amcteams.manager",
+      "permissions": [
+        "NOTIFICATIONS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "CAMERA"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-notifications",
+      [
+        "expo-document-picker",
+        {
+          "appleTeamId": "TUO_TEAM_ID"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
