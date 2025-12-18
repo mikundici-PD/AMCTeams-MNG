@@ -14,6 +14,7 @@ export interface Atleta {
   telefono?: string; // <--- AGGIUNTO
   docImage?: string;  // <--- AGGIUNTO
   cfImage?: string;   // <--- AGGIUNTO
+  certificatoFileUri?: string; // <--- AGGIUNTO (PDF o Immagine)
 }
 
 export interface Gara {
