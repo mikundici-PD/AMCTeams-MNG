@@ -39,8 +39,10 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          - name: Initialize EAS project
-  run: npx eas init --non-interactive --force
+
+      - name: Initialize EAS project
+        run: npx eas init --non-interactive --force
+
 
       - name: Build APK
         run: eas build -p android --profile preview --local --output=./amc-teams.apk
