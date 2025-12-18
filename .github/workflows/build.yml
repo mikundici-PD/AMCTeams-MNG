@@ -17,22 +17,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Enable Corepack (Yarn)
-        run: corepack enable
-
-      - name: Cache Yarn
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-v2
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
       - name: Setup Expo & EAS
         uses: expo/expo-github-action@v8
         with:
@@ -40,11 +24,5 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build APK
+      - name: Build Android (preview)
         run: eas build -p android --profile preview --non-interactive
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: amc-teams-apk
-          path: ./amc-teams.apk
