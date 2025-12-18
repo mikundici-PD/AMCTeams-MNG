@@ -1,6 +1,8 @@
 import * as Notifications from 'expo-notifications';
-import { differenceInDays, parseISO } from 'date-fns';
+import { differenceInDays, parseISO, subDays } from 'date-fns';
+import { Atleta } from '../store/useStore';
 
+// Configurazione comportamento notifiche
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -9,29 +11,39 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const scheduleAllNotifications = async (atlete: Atleta[], gare: Gara[]) => {
-  // 1. Pulisci tutte le notifiche esistenti per evitare duplicati
+export const scheduleAllNotifications = async (atlete: Atleta[]) => {
+  // 1. Cancella tutte le notifiche programmate precedentemente per evitare duplicati
   await Notifications.cancelAllScheduledNotificationsAsync();
 
-  // 2. Cicla Atlete per scadenze documenti
-  atlete.forEach(atleta => {
-    const scadenza = parseISO(atleta.certificatoMedico);
-    const giorniAllaScadenza = differenceInDays(scadenza, new Date());
+  for (const atleta of atlete) {
+    if (!atleta.certificatoMedico) continue;
 
-    if (giorniAllaScadenza > 0) {
-      // Notifica 30 giorni prima (WARN)
-      Notifications.scheduleNotificationAsync({
+    const scadenza = parseISO(atleta.certificatoMedico);
+    const oggi = new Date();
+
+    // Notifica 1: Scadenza imminente (30 giorni prima)
+    const dataWarn = subDays(scadenza, 30);
+    if (dataWarn > oggi) {
+      await Notifications.scheduleNotificationAsync({
         content: {
-          title: "Scadenza Certificato",
-          body: `${atleta.nome} ${atleta.cognome} ha il certificato in scadenza tra 30 giorni!`,
+          title: "⚠️ Scadenza Certificato",
+          body: `Il certificato di ${atleta.nome} ${atleta.cognome} scadrà tra 30 giorni.`,
+          data: { atletaId: atleta.id },
         },
-        trigger: { 
-            seconds: (giorniAllaScadenza - 30) * 86400, // Calcolo semplificato
-        }, 
+        trigger: dataWarn,
       });
     }
-  });
 
-  // 3. Compleanni (Esempio annuale)
-  // ... logica simile
+    // Notifica 2: Giorno della scadenza
+    if (scadenza > oggi) {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "🚨 Certificato Scaduto!",
+          body: `Il certificato di ${atleta.nome} ${atleta.cognome} è scaduto oggi. L'atleta non può giocare.`,
+          data: { atletaId: atleta.id },
+        },
+        trigger: scadenza,
+      });
+    }
+  }
 };
